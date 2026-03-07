@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>changer theme</title>
+    <title>choisir une theme</title>
 </head>
-<body id="page">
-  
-    <h1>choisir un theme</h1>
-
-<select id="nature">
-<option value="nature">nature</option>
+<body>
+    <select id="nature" onchange="changeTheme()">
+  <option value="ville">ville</option>
+  <option value="desert">desert</option>
 <option value="mer">mer</option>
-<option value="desert">desert</option>
-
 </select>
 
-<img id="image" src="https://greggvanourek.com/wp-content/uploads/2023/08/Nature-path-by-water-trees-and-mountains-AdobeStock_291242770-scaled.jpeg" 
-height="300"
- alt="">
-<p id="message"></p>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb66GL5N3iqA9fKJW4k0ELFuwaBMUp1bGXmg&s" 
+height="300px"
+alt="">
+
+ <p id="themeMessage">Thème Clair appliqué</p>
 
 
 
@@ -33,6 +30,8 @@ height="300"
 
 
 
-    <script src="NEW.js" defer  ></script>
+
+    <script src="NEW.js"></script>
 </body>
+</html>
 </html>
