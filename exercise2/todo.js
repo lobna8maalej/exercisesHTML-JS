@@ -1,205 +1,108 @@
-// Références aux éléments
-var taskInput = document.getElementById("taskInput");
-var addBtn = document.getElementById("addBtn");
-var taskList = document.getElementById("taskList");
-var taskCounter = document.getElementById("taskCounter");
-var clearBtn = document.getElementById("clearBtn")
-var todos = document(localStorage.getItem("todos")) || [];
 
-// Fonction pour afficher les tâches
-function displayTasks() {
-    // Supprimer toutes les tâches existantes
-    while (taskList.firstChild) {
-        taskList.removeChild(taskList.firstChild);
-        
-    }
 
-    todos.forEach(function(task) {
-        var li = document.createElement("li");
-        li.textContent = task.value + " (créé le " + task.date + ")";
+var input = document.createElement("input");
+input.placeholder = "Nouvelle tâche";
+input.type = "text";
 
-        if (task.completed) {
-            li.classList.add("completed");
-        }
 
-        // Clic pour marquer comme completed
-        li.addEventListener("click", function() {
-            task.completed = !task.completed;
-            saveTasks();
-            displayTasks();
-        });
+var addBtn = document.createElement("button");
+addBtn.textContent = "Add";
 
-        // Bouton supprimer
-        var deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Supprimer";
-        deleteBtn.className = "deleteBtn";
-        deleteBtn.addEventListener("click", function(e) {
-            e.stopPropagation(); // éviter toggle completed
-            todos = todos.filter(function(t) {
-                return t.id !== task.id;
-            });
-            saveTasks();
-            displayTasks();
-        });
 
-        li.appendChild(deleteBtn);
-        taskList.appendChild(li);
-    });
+var taskCounter = document.createElement("p");
+taskCounter.id = "task-counter";
+taskCounter.textContent = "Tasks: 0";
+
+
+var taskList = document.createElement("ul");
+taskList.id = "task-list";
+
+document.body.appendChild(input);
+document.body.appendChild(addBtn);
+document.body.appendChild(taskCounter);
+document.body.appendChild(taskList);
+
+
+var todos = [];
+
+
+function updateCounter() {
+    taskCounter.textContent = "Tasks: " + todos.length;
 }
 
-// Ajouter une tâche
-addBtn.addEventListener("click", function() {
-    var taskValue = taskInput.value.trim();
-    if (taskValue === "") {
-        alert("Veuillez entrer une tâche !");
-        return;
-    }
 
+addBtn.addEventListener("click", function() {
+    var taskText = input.value.trim();
+    if (taskText === "") return; 
+
+  
     var task = {
-        id: Date.now(),
-        value: taskValue,
-        date: new Date().toLocaleDateString(),
+        id: todos.length + 1,
+        value: taskText,
+        date: new Date().toISOString().split("T")[0],
         completed: false
     };
 
     todos.push(task);
-    saveTasks();
-    displayTasks();
-    taskInput.value = "";
-});
 
-// Sauvegarder dans localStorage
-function saveTasks() {
-    localStorage.setItem("todos", JSON.stringify(todos));
-}
+    
+    var li = document.createElement("li");
+    li.textContent = task.value + " - " + task.date;
 
-// Afficher les tâches au chargement
-displayTasks();
-
-function displayTasks() {
-    while (taskList.firstChild) {
-        taskList.removeChild(taskList.firstChild);
-    }
-
-    todos.forEach(function(task) {
-        var li = document.createElement("li");
-        li.textContent = task.value + " (créé le " + task.date + ")";
-
-        if (task.completed) {
-            li.classList.add("completed");
-        }
-
-        li.addEventListener("click", function() {
-            task.completed = !task.completed;
-            saveTasks();
-            displayTasks();
-        });
-
-        var deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Supprimer";
-        deleteBtn.className = "deleteBtn";
-        deleteBtn.addEventListener("click", function(e) {
-            e.stopPropagation();
-            todos = todos.filter(function(t) {
-                return t.id !== task.id;
-            });
-            saveTasks();
-            displayTasks();
-        });
-
-        li.appendChild(deleteBtn);
-        taskList.appendChild(li);
+    
+    var completeBtn = document.createElement("button");
+    completeBtn.textContent = "completed";
+    completeBtn.addEventListener("click", function() {
+        li.style.textDecoration = "line-through";
+        li.style.opacity = "0.6";
+        task.completed = true;
+        ;
     });
 
-    updateCounter(); // mettre à jour le compteur
-}
+    li.appendChild(completeBtn);
+    taskList.appendChild(li);
+
+  
+    input.value = "";
+
+   
+    updateCounter();
+});
+
+
+var clearBtn = document.createElement("button");
+clearBtn.textContent = "Clear All";
+document.body.appendChild(clearBtn);
+
+
 clearBtn.addEventListener("click", function() {
-    if (todos.length === 0) return; // rien à faire si liste vide
+   
+    var taskList = document.getElementById("task-list");
+    taskList.innerHTML = ""; 
 
-    if (confirm("Voulez-vous vraiment supprimer toutes les tâches ?")) {
-        todos = [];           
-        saveTasks();          
-        displayTasks();       
-    }
+   
+    todos = [];
+
+  
+    var taskCounter = document.getElementById("task-counter");
+    taskCounter.textContent = "Tasks: 0";
 });
-function displayTasks() {
-    while (taskList.firstChild) {
-        taskList.removeChild(taskList.firstChild);
-    }
 
-    todos.forEach(function(task) {
-        var li = document.createElement("li");
-        li.textContent = task.value + " (créé le " + task.date + ")";
+var li = document.createElement("li");
+li.textContent = "Apprendre JS";
 
-        if (task.completed) {
-            li.classList.add("completed");
-        }
-        li.addEventListener("click", function() {
-            task.completed = !task.completed;
-            saveTasks();
-            displayTasks();
-        });
+var editBtn = document.createElement("button");
+editBtn.textContent = "Edit";
 
-        
-        var editBtn = document.createElement("button");
-        editBtn.textContent = "Edit";
-        editBtn.addEventListener("click", function(e) {
-            e.stopPropagation(); 
-
-            
-            var input = document.createElement("input");
-            input.type = "text";
-            input.value = task.value;
-
-            li.textContent = ""; // vider le li
-            li.appendChild(input);
-
-           
-            var saveBtn = document.createElement("button");
-            saveBtn.textContent = "Save";
-            saveBtn.addEventListener("click", function() {
-                if (input.value.trim() !== "") {
-                    task.value = input.value.trim();
-                    saveTasks();
-                    displayTasks();
-                } else {
-                    alert("La tâche ne peut pas être vide !");
-                }
-            });
-
-            li.appendChild(saveBtn);
-        });
-
-        // Bouton Supprimer
-        var deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Supprimer";
-        deleteBtn.addEventListener("click", function(e) {
-            e.stopPropagation();
-            todos = todos.filter(function(t) {
-                return t.id !== task.id;
-            });
-            saveTasks();
-            displayTasks();
-        });
-
-        li.appendChild(editBtn);
-        li.appendChild(deleteBtn);
-        taskList.appendChild(li);
-    });
-
-    taskCounter.textContent = "Tasks: " + todos.length;
-}
-var sortBtn = document.getElementById("sortBtn");
-
-sortBtn.addEventListener("click", function() {
-    todos.sort(function(a, b) {
-        return b.id - a.id;
-    });
-    displayTasks(); 
+editBtn.addEventListener("click", function() {
+   
+    li.textContent = "Apprendre JS";
 });
-function saveTasks() {
-    localStorage.setItem("todos", JSON.stringify(todos));
-}
 
-// Affichage initial
-displayTasks();
+editBtn.addEventListener("click", function() {
+    var input = document.createElement("input");
+    input.value = li.textContent;
+    li.textContent = ""; 
+    li.appendChild(input);
+    
+});

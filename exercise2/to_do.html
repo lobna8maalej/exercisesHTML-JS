@@ -1,32 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List avec objets</title>
-    <style>
-        .completed {
-            text-decoration: line-through;
-            opacity: 0.6;
-        }
-        button {
-            margin-left: 10px;
-        }
-        li {
-            margin-bottom: 5px;
-        }
-    </style>
+    <title>Todo List</title>
 </head>
 <body>
-    
-    <input type="text" id="taskInput" placeholder="Ajouter une tâche">
-    <button id="addBtn">Ajouter</button>
- <button id="clearBtn">Clear All</button>
- <button id="sortBtn">Sort by Date</button>
- <p id="taskcounter">task 0</p>
-    <ul id="taskList"></ul>
+    <input type="text" id="task-input" placeholder="Nouvelle tâche">
+    <button id="add-btn">Add</button>
 
    
+    <ul id="task-list">
+  
+    </ul>
+
+    
+    <p id="task-counter">Tasks: 0</p>
+
+    <script>
 
 
 
@@ -39,6 +30,11 @@
 
 
 
-    <script src="todo.js"></script>
+
+
+
+
+
+<script src="todo.js"></script>
 </body>
 </html>
