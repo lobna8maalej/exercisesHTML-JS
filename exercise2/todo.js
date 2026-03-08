@@ -106,3 +106,9 @@ editBtn.addEventListener("click", function() {
     li.appendChild(input);
     
 });
+
+var tasks=["apprendrehtml","apprendrecss","apprendrejs"]
+
+localStorage.setItem("tasks",JSON.stringify("tasks"))
+JSON.parse(localStorage.getItem("tasks"))
+console.log(tasks)
